@@ -1,0 +1,114 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>海纳存储 HNS</title>
+    <style>
+        html{
+            width: 100%;
+            height: 100%;
+        }
+        body{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            background: no-repeat center 0px;
+            background-image: linear-gradient(45deg, #0d1117, #0d111700), url({% static "img/login.jpg" %});
+            background-size: 100% 100%;
+        }
+    </style>
+    <script src="{% static "js/jquery.js" %}"></script>
+    <script src="{% static "js/main.js" %}"></script>
+    <script src="{% static "js/echarts.min.js" %}"></script>
+    <link rel="stylesheet" href="{% static "css/login.css" %}">
+    <link rel="stylesheet" href="{% static "css/font-awesome.css" %}">
+    <link rel="stylesheet" href="{% static "css/loaders.css" %}">
+</head>
+<body>
+    <div class="mask" id="mask">
+        <div class="login-box">
+            <div class="login-title">
+                <b>海 纳 存 储</b>
+            </div>
+            <div class="input-box">
+                <div class="input-item">
+                    <div class="tips">请输入用户名</div>
+                    <input id="user-name" type="text">
+                </div>
+                <div class="input-item">
+                    <div class="tips">请输入密码</div>
+                    <input id="pwd" type="password">
+                </div>
+            </div>
+            <div class="botton-box">
+                <div class="loginbt" id="login-bt">登录</div>
+                <div class="loginbt" id="register-bt" >注册</div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog" id="dialog">
+        <div class="mess-box">
+            <div class="mess-title" id="mess-title">标题</div>
+            <div class="mess-content" id="mess-content"><p id="inf">some inf</p></div>
+            <div class="mess-button" id="mess-button">
+                <div class="mess-bt" id="mess-comfirm">确认</div>
+            </div>
+
+        </div>
+    </div>
+    <div class="loader" id="loader">
+        <div class="loading" id="loading-mask">
+            <div class="loader-dis">
+                <div class="loader-inner pacman"><div></div><div></div><div></div><div></div><div></div></div>
+                <p id="loader-inf">身份信息获取中 ... ...</p>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ d_csrf_token }}">
+    <script src="/static/js/pre.js"></script>
+    <script src="{% static "js/show_disk_inf.js" %}"></script>
+    <script>
+        var reader = new FileReader();
+        var Rate = 0.2;
+        var stored = {};
+        var nodes_nums = 0;
+        Module.FS.mkdir("/cache");
+        Module.FS.mkdir("/downloads");
+        var cal_file_sm3 =  Module.cwrap('cal_file_sm3', ['number'], ['string', "number"]);
+        var cal_sm3 =  Module.cwrap('cal_sm3', ['number'], ['string']);
+        var pre_init = Module.cwrap('init', null, ["string", 'number']);
+        var pre_init_res = Module.cwrap('init_res', null, ["string", 'number', "number", "string"]);
+        var get_pointers = Module.cwrap('get_pdomain', ['number'], ['string', 'number']);
+        var decrypt_file = Module.cwrap('decrypt', null, ['string', 'string', 'string'])
+        var remove = Module.cwrap('remove', ['number'], ['string']);
+        $( document ).ready(function (){
+            $.ajax({
+                url: "/nodes/",
+                type: "GET",
+                success: function (res){
+                    res = JSON.parse(res);
+                    console.log(res);
+                    for(let i = 0;i < res.nums ; i++ ){
+                        stored[i] = {"name": res[i], "nums": 0};
+                    }
+                    nodes_nums = res.nums;
+                }
+            })
+        })
+    </script>
+    <script>
+        $(function(){
+            $("#login-bt").click(function(){
+                login_status();
+            })
+            $("#register-bt").click(function(){
+                register_switch();
+            })
+            $("#pwd").keyup(function(){
+                checklenth("pwd");
+            })
+        })
+    </script>
+    <link rel="stylesheet" href="{% static "css/disk.css" %}">
+</body>
+</html>

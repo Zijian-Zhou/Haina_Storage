@@ -1,0 +1,272 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>海纳存储 HNS</title>
+    <style>
+        html{
+            width: 100%;
+            height: 100%;
+        }
+        body{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            background: no-repeat center 0px;
+            font-family: sans-serif;
+            background-color: #294072;
+            background-size: 100% 100%;
+            background-image: linear-gradient(to bottom, #2649A0, #051F36);
+        }
+    </style>
+    <script src="{% static "js/jquery.js" %}"></script>
+    <script src="{% static "js/main.js" %}"></script>
+    <script src="{% static "js/echarts.min.js" %}"></script>
+    <link rel="stylesheet" href="{% static "css/login.css" %}">
+    <link rel="stylesheet" href="{% static "css/font-awesome.css" %}">
+    <link rel="stylesheet" href="{% static "css/loaders.css" %}">
+    <link rel="stylesheet" href="{% static "css/disk.css" %}">
+</head>
+<body>
+    <div class="desktop" id="desktop">
+        <div class="top-sticky">
+            <div class="left"></div>
+            <div class="center"><div class="title"><b>海 纳 存 储</b>&emsp;-&emsp;H&emsp;N&emsp;S</div></div>
+            <div class="right">
+                <div class="op-item" id="search-bt"><i class="fa fa-search" aria-hidden="true">搜索</i></div>
+                <div class="op-item" id="logout-bt"><i class="fa fa-sign-out" aria-hidden="true">退出</i></div>
+            </div>
+        </div>
+        <div class="guide-row">
+            <div class="gap">&emsp;</div>
+            <div class="guide-item clickable">根目录</div>
+            <div class="guide-bar"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
+            <div class="guide-item">文件夹</div>
+        </div>
+        <div class="left-box">
+            <div class="show-chart">
+                <div id="capacity_chart" style="width: 450px;height: 450px;user-select: none;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);position: fixed;left: -10%;top: 3.6%;"></div>
+            </div>
+            <div class="run-inf">
+                <div style="height: 3%">&emsp;</div>
+                <div class="title"><b>运行消息</b></div>
+                <div class="inf-box style-1">123</div>
+            </div>
+        </div>
+        <div class="files-box">
+            <div class="file-list style-1">
+                <div class="list-item list-title">
+                    <div class="name">名称</div>
+                    <div class="date">修改时间</div>
+                    <div class="size">大小</div>
+                    <div class="ops">操作</div>
+                </div>
+                <div class="list-item">
+                    <div class="name">
+                        <div class="icon">
+                            <i class="fa fa-folder-open" aria-hidden="true"></i>
+                        </div>
+                        <p>文件夹</p>
+                    </div>
+                    <div class="date">2023-01-01 15:21:21</div>
+                    <div class="size">100MB</div>
+                    <div class="ops">
+                        <div class="op">打开</div>
+                        <div class="op">删除</div>
+                        <div class="op">重命名</div>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div class="name">
+                        <div class="icon">
+                            <div id="" class="document"><i class="fa fa-file-text" aria-hidden="true"></i></div>
+                            <div id="" class="lock"><i class="fa fa-lock" aria-hidden="true"></i></div>
+                        </div>
+                        <p>文件</p>
+                    </div>
+                    <div class="date">2023-01-01 15:21:21</div>
+                    <div class="size">100MB</div>
+                    <div class="ops">
+                        <div class="op">下载</div>
+                        <div class="op">删除</div>
+                        <div class="op">重命名</div>
+                    </div>
+                </div>
+                <div id="create" class="list-item list-create">
+                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="box-bottom">
+                <div class="show-type selected" id="icon-mode"><i class="fa fa-th-large" aria-hidden="true"></i>图标</div>
+                <div class="show-type" id="list-mode"><i class="fa fa-list" aria-hidden="true"></i>列表</div>
+            </div>
+        </div>
+        <div class="footer">&copy2023海纳存储-HNS</div>
+    </div>
+    <div id="create-new-mask" class="create-new-mask" style="visibility: hidden">
+        <div class="box">
+            <div class="box-title">上 传 文 件</div>
+            <div class="up-area" id="up-area" >点击此处或将文件拖拽至此处进行文件上传</div>
+            <input type="file" id="files-list", style="visibility: hidden" multiple>
+            <div id="log-file-area" class="log-area style-1"></div>
+            <div class="buttons">
+                <div id="upload-cancel" class="button item">取消</div>
+                <div id="confirm-upload" class="button item">确认上传</div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog" id="dialog">
+        <div class="mess-box">
+            <div class="mess-title" id="mess-title">标题</div>
+            <div class="mess-content" id="mess-content"><p id="inf">some inf</p></div>
+            <div class="mess-button" id="mess-button">
+                <div class="mess-bt" id="mess-comfirm">确认</div>
+            </div>
+
+        </div>
+    </div>
+    <div class="loader" id="loader">
+        <div class="loading" id="loading-mask">
+            <div class="loader-dis">
+                <div class="loader-inner pacman"><div></div><div></div><div></div><div></div><div></div></div>
+                <p id="loader-inf">身份信息获取中 ... ...</p>
+            </div>
+        </div>
+    </div>
+    <div id="adder" class="adder">
+        <div class="box">
+            <div class="title">请&emsp;选&emsp;择&emsp;操&emsp;作</div>
+            <div class="buts">
+                <div class="bt" id="create-new-file">上&emsp;传&emsp;文&emsp;件</div>
+                <div class="bt" id="create-new-folder">新&emsp;建&emsp;文&emsp;件&emsp;夹</div>
+                <div class="bt" id="create-cancel">取&emsp;消</div>
+            </div>
+        </div>
+    </div>
+    <div id="create-new-folder-box" class="adder" style="visibility: hidden">
+        <div class="box">
+            <div class="title">请&emsp;输&emsp;入&emsp;文&emsp;件&emsp;夹&emsp;名</div>
+            <input id="folder-name-in" value="请输入文件夹名">
+            <div class="buts">
+                <div class="bt" id="confirm-new-folder">确&emsp;认</div>
+                <div class="bt" id="folder-creator-cancel">取&emsp;消</div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ d_csrf_token }}">
+    <script src="{% static "js/show_disk_inf.js" %}"></script>
+    <script>
+        var capacity_chart = echarts.init(document.getElementById('capacity_chart'));
+        capacity_chart.setOption(capacity_option);
+    </script>
+    <script>
+        var file_container = document.getElementById("files-list");
+        var dropzone = document.getElementById('up-area');
+        var getin_list = [];
+        function check_in(file){
+            for(let i = 0;i < getin_list.length; i++){
+                let temp = getin_list[i];
+                if(temp == file.name) return true;
+            }
+            return false;
+        }
+        function add_file_item(){
+            for(let i = 0; i < file_container.files.length; i++){
+                let file = file_container.files[i];
+                if(check_in(file)){
+                    continue;
+                }
+                getin_list.push(file.name);
+                let outer = create_div(file.lastModified + "-" + file.name, "item");
+                let temp = document.createElement("span");
+                temp.innerText = file.name;
+                outer.appendChild(temp);
+                temp = create_div("trash-" + file.lastModified + "-" + file.name, "trash");
+                temp.innerHTML = "<i class=\"fa fa-trash-o\"></i>"
+                outer.appendChild(temp);
+                document.getElementById("log-file-area").appendChild(outer);
+            }
+        }
+        function dropevents(e){
+            e.preventDefault();
+            if(e.type == "drop"){
+                console.log("drop");
+                for (let file of e.dataTransfer.files) {
+                    if(check_in(file)){
+                        continue;
+                    }
+                    getin_list.push(file.name);
+                    let outer = create_div(file.lastModified + "-" + file.name, "item");
+                    let temp = document.createElement("span");
+                    temp.innerText = file.name;
+                    outer.appendChild(temp);
+                    temp = create_div("trash-" + file.lastModified + "-" + file.name, "trash");
+                    temp.innerHTML = "<i class=\"fa fa-trash-o\"></i>"
+                    outer.appendChild(temp);
+                    document.getElementById("log-file-area").appendChild(outer);
+                }
+
+                dropzone.style.background = "#f5f5dc00";
+            }else if(e.type == "dragenter"){
+                console.log("dragenter");
+                dropzone.style.background = "rgba(255,255,255,0.5)";
+            }else if(e.type == "dragover"){
+                console.log("dragover");
+                dropzone.style.background = "rgba(255,255,255,0.5)";
+            }else if(e.type == "dragleave"){
+                console.log("dragleave");
+                dropzone.style.background = "#f5f5dc00";
+            }else if(e.type == "click"){
+                console.log("click");
+                file_container.click();
+            }else if(e.type == "mouseover"){
+                console.log("over");
+                dropzone.style.background = "rgba(255,255,255,0.5)";
+            }else if(e.type == "mouseout"){
+                console.log("out");
+                dropzone.style.background = "#f5f5dc00";
+            }
+        }
+        function loadfiles(e) {
+            e.preventDefault();
+            if(e.type == "change"){
+                add_file_item();
+            }
+        }
+        dropzone.addEventListener("dragenter", dropevents);
+        dropzone.addEventListener("dragover", dropevents);
+        dropzone.addEventListener("drop", dropevents);
+        dropzone.addEventListener("dragleave", dropevents);
+        dropzone.addEventListener("click", dropevents);
+        dropzone.addEventListener("mouseover", dropevents);
+        dropzone.addEventListener("mouseout", dropevents);
+        file_container.addEventListener("change", loadfiles);
+        document.getElementById("create").addEventListener("click", function (){
+            document.getElementById("adder").style.visibility = "visible";
+        })
+        document.getElementById("upload-cancel").addEventListener("click", function (){
+            document.getElementById("create-new-mask").style.visibility = "hidden";
+        });
+        document.getElementById("create-new-file").addEventListener("click", function (){
+            document.getElementById("adder").style.visibility = "hidden";
+            document.getElementById("create-new-mask").style.visibility = "visible";
+        });
+        document.getElementById("create-cancel").addEventListener("click", function (){
+            document.getElementById("adder").style.visibility = "hidden";
+        });
+        document.getElementById("create-new-folder").addEventListener("click", function (){
+            document.getElementById("create-new-folder-box").style.visibility = "visible";
+            document.getElementById("folder-name-in").value = "请输入文件夹名";
+        });
+        document.getElementById("folder-creator-cancel").addEventListener("click", function (){
+            document.getElementById("adder").style.visibility = "hidden";
+            document.getElementById("create-new-folder-box").style.visibility = "hidden";
+        });
+        document.getElementById("folder-name-in").addEventListener("focus", function (){
+            if(document.getElementById("folder-name-in").value == "请输入文件夹名"){
+                document.getElementById("folder-name-in").value = "";
+            }
+        });
+    </script>
+</body>
+</html>

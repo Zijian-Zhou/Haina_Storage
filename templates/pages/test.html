@@ -1,0 +1,253 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <!--<script src="/static/js/test.js"></script>-->
+    <script src="/static/js/pre.js"></script>
+    <script src="{% static "js/jquery.js" %}"></script>
+</head>
+<body>
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ d_csrf_token }}">
+    <input id="testfile" type="file" value="请选择文件">
+    <input type="button" id="confirm" value="确定">
+    <script>
+
+    </script>
+    <script>
+        var tar = document.getElementById('testfile');
+        var reader = new FileReader();
+        var Rate = 0.2;
+        var stored = {};
+        var nodes_nums = 0;
+        Module.FS.mkdir("/cache");
+        $(function(){
+            $("#confirm").click(function (){
+                reader.readAsArrayBuffer(tar.files[0]);
+            })
+        })
+        $( document ).ready(function (){
+            $.ajax({
+                url: "/nodes/",
+                type: "GET",
+                success: function (res){
+                    res = JSON.parse(res);
+                    console.log(res);
+                    for(let i = 0;i < res.nums ; i++ ){
+                        stored[i] = {"name": res[i], "nums": 0};
+                    }
+                    nodes_nums = res.nums;
+                }
+            })
+        })
+        var cal_file_sm3 =  Module.cwrap('cal_file_sm3', ['number'], ['string', "number"]);
+        var pre_init = Module.cwrap('init', null, ["string", 'number']);
+        var pre_init_res = Module.cwrap('init_res', null, ["string", 'number', "string", "string"]);
+        //var print_file = Module.cwrap('print_file', null, ["string"]);
+        function print_file(src){
+            var data = Module.FS.readdir(src);
+            console.log("line50", data);
+        }
+        function add_zero(val){
+            if(val.length == 1) return "0" + val;
+            return val;
+        }
+        function pre_work(){
+            var bytes = new Uint8Array(reader.result);
+            var len = reader.result.byteLength;
+            Module.FS.writeFile("source.dat", bytes);
+            pre_init("source.dat", 10);
+        }
+        function sm3_file() {
+            var bytes = new Uint8Array(reader.result);
+            var len = reader.result.byteLength;
+            Module.FS.writeFile("test.dat" ,bytes);
+
+            var ptr = cal_file_sm3("test.dat", len);
+            var value = "";
+            for(let i = 0;i<32;i++){
+                let ans = Module.HEAP32[ptr / 4 + i] ;
+                value += add_zero(ans.toString(16));
+            }
+            console.log("line73:", value.toUpperCase());
+        }
+        function buf2hex(buffer) {
+           return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' +
+                 x.toString(16)).slice(-2)).join('');
+
+        }
+        function check_block(token, checksum, url, check_token){
+            let data = new FormData();
+            data.append("data", JSON.stringify({"code": 1, "token": token, "check_sum": checksum}));
+            data.append("csrfmiddlewaretoken", check_token);
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function (res){
+                    res = JSON.parse(res);
+                    console.log("line 92:", res);
+                }
+            })
+        }
+        function get_check_token(url, append){
+            return new Promise(function (resolve, reject){
+                $.ajax({
+                    url: url + append,
+                    type: "GET",
+                    success: function (res){
+                        res = JSON.parse(res);
+                        console.log("get_token:", res, res.token);
+                        resolve(res.token);
+                    },
+                    error: function (request, status, error){
+                        reject(request.responseText);
+                    }
+                })
+            })
+        }
+        function block_upload(block, node){
+            console.log("line 97 upload", block);
+            let url = "http://" + node + "/upload/";
+            //FS.readFile('file', { encoding: 'utf8' })
+            let block_data = Module.FS.readFile(block, { encoding: "binary" });
+            let data = new FormData();
+            data.append("data", JSON.stringify({"code": 0}));
+            get_check_token(url, "get_token/").then(function (check_token){
+                console.log("check_token", check_token)
+                data.append("csrfmiddlewaretoken", check_token);
+                data.append("block", JSON.stringify({"block": block_data}));
+                console.log("line104", data);
+                $.ajax({
+                        url: url + "get_token/",
+                        type: "POST",
+                        //headers: {'Access-Control-Allow-Credentials': true, " Access-Control-Allow-Origin": window.location.href},
+                        data: data,
+                        xhrFields: {
+                            withCredentials: true
+                        },
+                        crossDomain: true,
+                        processData: false,
+                        contentType: false,
+                        success: function (res){
+                            res = JSON.parse(res);
+                            console.log("line114", res);
+                            if(res.code == 0){
+                                check_block(res.token, res.checksum, url, check_token);
+                            }
+                            else{
+                                set_messs_box("错 误", "传输出错，错误代码REG-0X01");
+                            }
+                        }
+                    })
+            })
+            .catch(function (error){
+                alert("发生错误，错误代码: UP-0x01.\ninf: ", error);
+            })
+        }
+        function rate_adjust(){
+            Rate = Math.min(Rate+0.1, 1);
+        }
+        function check_rate(node, nums){
+            if(node["nums"] / nums > Rate){
+                return false;
+            }
+            return true;
+        }
+        function select_node(nodes_inf, nums){
+            for(let i = 0; i < nodes_inf.length; i++){
+                for(let j = 0; j < nodes_nums ; j++){
+                    console.log(stored[j]["name"], nodes_inf[i]["node"]);
+                    if(stored[j]["name"] == nodes_inf[i]["node"]){
+                        if(stored[j]["nums"] == 0){
+                            stored[j]["nums"]++;
+                            return stored[j]["name"];
+                        }
+                    }
+                }
+            }
+            for(let i = 0; i < nodes_inf.length; i++){
+                for(let j = 0; j < nodes_nums ; j++){
+                    console.log(stored[j]["name"], nodes_inf[i]["node"]);
+                    if(stored[j]["name"] == nodes_inf[i]["node"]){
+                        if(stored[j]["nums"] != 0 && check_rate(stored[j], nums)){
+                            stored[j]["nums"]++;
+                            return stored[j]["name"];
+                        }
+                    }
+                }
+            }
+            for(let j = 0; j < nodes_nums ; j++){
+                console.log(stored[j]["name"], nodes_inf[0]["node"]);
+                if(stored[j]["name"] == nodes_inf[0]["node"]){
+                    stored[j]["nums"]++;
+                    rate_adjust();
+                    return nodes_inf[0]["node"];
+                }
+            }
+        }
+        function getnext_Beginner(idx, nums, Beginner){
+            console.log("line 163 get_next:", Beginner, idx, nums);
+            if(idx == nums) return;
+            let block_inf = Module.FS.stat("/cache/cache_" + idx);
+            let block_size = block_inf.size;
+            console.log("line 167 res", Beginner);
+            let url = "http://" + Beginner + "/election/";
+            get_check_token(url, "").then(function (check_token){
+                console.log("line 169 begin", url);
+                var data = {
+                    url: url,
+                    //headers: {'Access-Control-Allow-Credentials': true, " Access-Control-Allow-Origin": window.location.href},
+                    type: "POST",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    crossDomain: true,
+                    data: {
+                        "data": JSON.stringify({"code": 0, "size": block_size}),
+                        "csrfmiddlewaretoken": check_token,
+                    },
+                    success: function (res){
+                        res = JSON.parse(res);
+                        console.log("line 180 res-res:",res);
+                        let node = select_node(res, nums);
+                        console.log("line 182 /cache/cache_" + idx);
+                        block_upload("/cache/cache_" + idx, node);
+                        getnext_Beginner(idx+1, nums, node);
+                    }
+                }
+                console.log("line187: ", data);
+                $.ajax(data);
+            })
+            .catch(function (error){
+                alert("发生错误，错误代码: NBeginner-0x01.\ninf: ", error);
+            })
+        }
+        function get_node(){
+                let nid = Math.floor(Math.random() * nodes_nums);
+                nid = nid % nodes_nums;
+                console.log("line193", nid, stored[nid]);
+                return stored[nid]["name"];
+        }
+        function res_meta(uname, pwd){
+            var data_domain = {"size": 0, "root": {
+                    "id": 0,
+                    "type": "D",
+                    "size": 0
+                }, "username": uname}
+            data_domain = JSON.stringify(data_domain);
+            var ec = new TextEncoder();
+            data_domain = ec.encode(data_domain);
+            Module.FS.writeFile("source.dat", data_domain);
+            //var nums = pre_init("source.dat", 2);
+            var nums = pre_init_res("source.dat", 2, pwd, uname);
+            let node = get_node();
+            block_upload("/cache/cache_" + 0, node);
+            getnext_Beginner(1, nums, node);
+        }
+    </script>
+</body>
+</html>

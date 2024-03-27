@@ -1,0 +1,218 @@
+.mask{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mask .login-box{
+    width: 76%;
+    height: 84%;
+    border-radius: 15px;
+    background: #0d111763;
+    box-shadow: 0px 7px 12px 0px #ffffff94;
+    background-image: linear-gradient(45deg, #0d111724, #0d111700);
+}
+.mask .login-box .login-title{
+    width: 100%;
+    text-align: center;
+    margin-top: 5%;
+    font-size: xx-large;
+    font-family: fantasy;
+    display: flex;
+    color: rgba(57,156,233,1);
+    justify-content: space-around;
+    text-shadow: 1px 1px 9px black;
+    word-spacing: 5px;
+}
+.mask .login-box .input-box{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.mask .login-box .input-box .input-item{
+    width: 100%;
+    height: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mask .login-box .input-box .input-item .tips{
+    width: 10%;
+    font-size: 22px;
+    color: #ffffffe8;
+    text-shadow: -12px -9px 16px black;
+}
+.mask .login-box .input-box .input-item input{
+    width: 39%;
+    height: 26%;
+    margin-left: 10%;
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px 3px #403f3f;
+    color: white;
+    font-size: 18px;
+}
+.mask .login-box .input-box .notice{
+    visibility: hidden;
+    color: red;
+}
+.mask .login-box .botton-box{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+.mask .login-box .botton-box .loginbt{
+    width: 18%;
+    background: rgba(57,156,233,0.7);
+    box-shadow: 7px 8px 4px 0px #393a52b5;
+    height: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-radius: 5px;
+}
+.mask .login-box .botton-box .loginbt:hover{
+    cursor: pointer;
+    background: rgba(57,156,233,0.3);
+}
+.loader{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 300;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+}
+.loading{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 300;
+    background: rgba(0,0,0,0.1);
+}
+.loading p{
+    font-size: 24px;
+    color: white;
+    text-align: center;
+    margin-right: 26px;
+    z-index: 300;
+}
+.loading .loader-dis{
+    width: 100%;
+    height: 40%;
+    position: absolute;
+    top: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.5);
+    flex-direction: column;
+}
+.dialog{
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(0 0 0 / 53%);
+}
+.dialog .mess-box{
+    width: 60%;
+    height: 66%;
+    border-radius: 15px;
+    background: rgb(6 95 171 / 70%);
+    box-shadow: 0 0 16px 4px dodgerblue;
+}
+.dialog .mess-title{
+    width: 100%;
+    text-align: center;
+    text-shadow: 4px 1px 13px black;
+    font-size: 30px;
+    color: white;
+    margin-top: 1%;
+}
+.dialog .mess-content{
+    width: 84%;
+    border: 1px white;
+    height: 74%;
+    position: relative;
+    left: 8%;
+    top: 2%;
+    border-style: solid;
+    border-radius: 15px;
+    box-shadow: 0px 0px 8px 2px #161515;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dialog .mess-content p{
+    margin: 10px;
+    color: white;
+    font-size: 20px;
+    text-shadow: 4px 1px 13px black;
+}
+.dialog .mess-button{
+    width: 100%;
+    position: relative;
+    top: 5%;
+    display: flex;
+    justify-content: space-around;
+}
+.dialog .mess-bt{
+    width: 14%;
+    background: white;
+    height: 40px;
+    border-radius: 5px;
+    color: black;
+    font-size: 17px;
+    text-align: center;
+    line-height: 40px;
+    box-shadow: 0 0 11px 2px black;
+    cursor: pointer;
+    text-shadow: 0 0 2px #000000a6;
+}
+.dialog .mess-bt:hover{
+    background: rgba(255,255,255,0.5);
+    color: white;
+}
+.dialog .mess-content .res-outer{
+    width: 100%;
+}
+.dialog .mess-content .res-bts{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.dialog .mess-content .res-bts p{
+    width: 15%;
+}
+.dialog .mess-content .res-mess{
+    color: red;
+    text-align: center;
+}
+.dialog .mess-content .res-inp{
+    background: rgb(36 97 177 / 68%);
+    width: 26%;
+    height: 28px;
+    line-height: 28px;
+    font-size: 22px;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 7px white;
+}

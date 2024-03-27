@@ -1,0 +1,525 @@
+.desktop{
+    width: 100%;
+    height: 100%;
+    color: white;
+}
+.desktop .top-sticky{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.desktop .top-sticky .center{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 20%;
+    justify-content: center;
+    margin-left: 7%;
+}
+.desktop .top-sticky .center .title{
+    width: 100%;
+    background: linear-gradient(180deg, #10A9E2, transparent);
+    height: 100%;
+    clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: fantasy;
+    font-size: 24px;
+}
+.desktop .top-sticky .right{
+    display: flex;
+    align-items: center;
+    width: 7%;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 5px;
+    color: #22beed;
+}
+.desktop .top-sticky .op-item{
+    cursor: pointer;
+}
+.desktop .guide-row{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    height: 40px;
+    font-size: 22px;
+    align-items: center;
+}
+.desktop .guide-row .guide-item{
+    line-height: 40px;
+    margin-left: 5px;
+}
+.desktop .guide-row .clickable{
+    color: #22beed;
+    cursor: pointer;
+}
+.desktop .guide-row .guide-bar{
+    line-height: 40px;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+    color: gray;
+}
+.desktop .left-box{
+    width: 20%;
+    height: 82%;
+    margin: 1%;
+}
+.desktop .left-box .show-chart{
+    width: 100%;
+    height: 49%;
+    border-radius: 12px;
+    background: rgb(6 95 171 / 40%);
+    box-shadow: 0 0 7px 2px white;
+}
+.desktop .left-box .run-inf{
+    width: 100%;
+    border-radius: 12px;
+    background: rgb(6 95 171 / 40%);
+    box-shadow: 0 0 7px 2px white;
+    margin-top: 5%;
+    height: 48%;
+}
+.desktop .left-box .run-inf .title{
+    font-size: 18px;
+    text-align: center;
+}
+.desktop .left-box .run-inf .inf-box{
+    width: 90%;
+    margin: 2% 5% 5%;
+    height: 83%;
+    background: rgb(6 95 171 / 55%);
+    border-radius: 6px;
+    font-size: 18px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.desktop .files-box{
+        width: 77%;
+    left: 20%;
+    height: 81.5%;
+    position: fixed;
+    top: 9.4%;
+    margin: 1% 1% 1% 2%;
+    border-radius: 12px;
+    background: rgb(6 95 171 / 10%);
+    box-shadow: 0 0 7px 2px white;
+}
+.desktop .files-box .file-list{
+    width: 100%;
+    height: 95%;
+    display: flex;
+    flex-direction: row;
+    overflow-y: scroll;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+.desktop .files-box .file-list .item{
+    width: 14%;
+    height: 23%;
+    text-align: center;
+}
+.desktop .files-box .file-list .create{
+    font-size: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.desktop .files-box .file-list .item:hover{
+    cursor: pointer;
+    background: rgba(0,0,0,0.2);
+}
+.desktop .files-box .file-list .item .icon-folder{
+    font-size: 98px;
+    height: 60%;
+}
+.desktop .files-box .file-list .item .icon-file{
+    font-size: 98px;
+    height: 60%;
+}
+.desktop .files-box .file-list .item .lock{
+    font-size: 30px;
+    position: relative;
+    top: -44px;
+    left: 3px;
+    color: red;
+}
+.desktop .files-box .file-list .item .document{
+    font-size: 76px;
+    padding-top: 10px;
+}
+.desktop .files-box .file-list .item .date{
+    font-size: 12px;
+}
+.desktop .files-box .file-list .item .size{
+    font-size: 12px;
+}
+.desktop .files-box .file-list .list-item{
+    width: 100%;
+    height: 6%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+.desktop .files-box .file-list .list-item:hover{
+    background: rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+.desktop .files-box .file-list .list-title:hover{
+    background: rgba(0,0,0,0);
+    cursor: default;
+}
+.desktop .files-box .file-list .list-item .name{
+    width: 35%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+.desktop .files-box .file-list .list-item .name .document{
+    position: relative;
+    top: 10px;
+}
+.desktop .files-box .file-list .list-item .name .lock{
+    color: red;
+    position: relative;
+    top: -3px;
+    left: 1px;
+    font-size: 13px;
+}
+.desktop .files-box .file-list .list-item .date{
+    width: 25%;
+}
+.desktop .files-box .file-list .list-item .size{
+    width: 20%;
+}
+.desktop .files-box .file-list .list-item .ops{
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 10;
+}
+.desktop .files-box .file-list .list-item .ops .op{
+    height: 90%;
+    display: flex;
+    align-items: center;
+    z-index: 5;
+}
+.desktop .files-box .file-list .list-item .ops .op:hover{
+    background: rgba(255,255,255,0.2);
+    border-radius: 3px;
+}
+.desktop .files-box .file-list .list-create{
+    font-size: 22px;
+}
+
+.desktop .files-box .box-bottom{
+    width: 100%;
+    height: 5%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.desktop .files-box .box-bottom .show-type{
+    margin: 1%;
+    cursor: pointer;
+}
+.desktop .files-box .box-bottom .selected{
+    cursor: default;
+    background: rgba(19,146,207,0.7);
+    width: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+.desktop .footer{
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    font-size: 15px;
+}
+
+.dialog .search-box{
+    width: 98%;
+    height: 96%;
+    padding: 2%;
+}
+.dialog .search-box .search-panel{
+    width: 100%;
+    height: 50px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.dialog .search-box .search-panel .sbt:hover{
+    color: dodgerblue;
+    cursor: pointer;
+}
+.dialog .search-box .search-panel .search-input{
+    background: rgba(0,0,0,0.1);
+    width: 60%;
+    height: 40px;
+    border-radius: 8px;
+    box-shadow: 1px 1px white;
+    color: white;
+    font-size: 20px;
+}
+.dialog .search-box .search-results{
+    width: 100%;
+    height: 80%;
+    color: white;
+    margin: 1%;
+    display: flex;
+    flex-direction: column;
+}
+.dialog .search-box .search-results .results-header{
+    font-size: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.dialog .search-box .search-results .over:hover{
+    background: rgba(0,0,0,0.2);
+}
+.dialog .search-box .search-results .ops{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.dialog .search-box .search-results .ops-op:hover{
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    border-radius: 3px;
+    width: 30%;
+}
+.dialog .search-box .search-results .header-td{
+    width: 25%;
+}
+.dialog .search-box .search-results .op-td{
+    text-align: center;
+}
+.dialog .search-box .search-results .results-items{
+    width: 100%;
+    overflow-y: scroll;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.dialog .search-box .search-results .item{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 5px;
+}
+.dialog .search-box .search-results .item:hover{
+    background: rgba(0,0,0,0.2);
+}
+.dialog .search-box .search-results .ops{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.dialog .search-box .search-results .ops .res-op{
+    cursor: pointer;
+}
+.dialog .search-box .search-results .ops .res-op:hover{
+    color: dodgerblue;
+}
+.create-new-mask{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 30;
+    background: rgba(0,0,0,0.3);
+}
+.create-new-mask .box{
+    background: rgb(12 126 225 / 66%);
+    width: 62%;
+    height: 50%;
+    border-radius: 15px;
+    position: fixed;
+    top: 25%;
+    left: 19%;
+    box-shadow: 0px 0px 16px 3px white;
+}
+.create-new-mask .box-title{
+    width: 100%;
+    height: 8%;
+    font-size: 22px;
+    color: white;
+    text-align: center;
+    margin-top: 5px;
+    font-family: fantasy;
+}
+.create-new-mask .up-area{
+    width: 96%;
+    height: 46%;
+    background: #f5f5dc00;
+    position: relative;
+    left: 2%;
+    border-radius: 10px;
+    border: 5px dotted white;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+}
+.create-new-mask .up-area:hover{
+    background: rgba(255,255,255,0.5);
+    transition: background 0.3s ease;
+}
+.create-new-mask .log-area{
+    width: 100%;
+    position: relative;
+    height: 24%;
+    overflow-y: scroll;
+    margin-top: 7px;
+    overflow-x: hidden;
+}
+.create-new-mask .log-area .item{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: white;
+    font-size: 18px;
+}
+.create-new-mask .log-area .item:hover{
+    background: rgba(0,0,0,0.1);
+    border: 1px solid white;
+    font-size: 20px;
+}
+.create-new-mask .log-area .item span{
+    margin-left: 2%;
+    width: 93%;
+}
+.create-new-mask .log-area .item .trash:hover{
+    cursor: pointer;
+    color: red;
+}
+.create-new-mask .buttons{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+.create-new-mask .buttons .button{
+    background: #2E62B9;
+    width: 15%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 0 7px 0px white;
+}
+.create-new-mask .buttons .button:hover{
+    background: rgba(0,0,0,0.5);
+}
+.adder{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 30;
+    background: rgba(0,0,0,0.3);
+}
+.adder .box{
+    background: #1f87f1ad;
+    width: 60%;
+    height: 40%;
+    border-radius: 15px;
+    position: fixed;
+    top: 30%;
+    left: 20%;
+    box-shadow: 0 0 20px 4px white;
+}
+.adder .box .title{
+    font-size: 22px;
+    text-align: center;
+    margin-top: 5px;
+    color: white;
+    border-bottom: 2px solid white;
+    height: 12%;
+}
+.adder .box .buts{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 88%;
+}
+.adder .box .buts .bt{
+    color: white;
+    font-size: 20px;
+    width: 30%;
+    height: 20%;
+    background: #14519dd1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 15px 1px white;
+}
+.adder .box .buts .bt:hover{
+    background: rgba(0,0,0,0.1);
+}
+.adder input{
+    width: 80%;
+    height: 30px;
+    line-height: 30px;
+    background: rgba(0,0,0,0);
+    border-radius: 5px;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 0 7px white;
+    position: relative;
+    top: 10%;
+    left: 10%;
+}
+.rename{
+    z-index: 101;
+}
+
+.style-1::-webkit-scrollbar-track{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 4px;
+	background-color: #F5F5F5;
+}
+
+.style-1::-webkit-scrollbar{
+	width: 4px;
+	background-color: rgba(12, 144, 223, 1);
+}
+.style-1::-webkit-scrollbar-thumb{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: rgb(14 126 255);
+}
