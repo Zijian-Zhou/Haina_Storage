@@ -16,3 +16,5 @@ This repository is the actual use of the engineering version of Haina storage, o
 本仓库为海纳存储可实际使用的工程版本，仅供学习与研究使用。相关技术已授中国版权和专利保护。
 
 
+You can access the operation video on Youtube: [https://youtu.be/2b8JMqvZV60](https://youtu.be/2b8JMqvZV60)
+
